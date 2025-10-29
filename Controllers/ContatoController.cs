@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using API_MVC.Context;
 using API_MVC.Models;
+using System.Diagnostics;
 
 namespace API_MVC.Controllers
 {
@@ -20,9 +21,17 @@ namespace API_MVC.Controllers
             return View(contatos);
         }
 
-        [HttpPost]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("Create")]
+        [ValidateAntiForgeryToken]
         public IActionResult CriarNovoContato(Contato contato)
         {
+            Debug.WriteLine($"Criando contato: {contato.Nome}");
+
             if (ModelState.IsValid)
             {
                 _context.Contatos.Add(contato);
